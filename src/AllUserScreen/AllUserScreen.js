@@ -16,14 +16,25 @@ class AllUsersScreen extends Component {
     }
 
     loginFun = () => {
-        fetch('https://chatappbackend22.herokuapp.com/getAllUsers')
-            .then(data => data.json())
-            .then((data) => {
-                this.setState({ arrayUsers: data })
-                // console.log("hello", data)
+            fetch('https://chatappbackend22.herokuapp.com/getAllUsers', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+    
+                },
+                body: JSON.stringify({
+                    "uid": this.props.location.state.uid,
+                })
             })
-            .catch(error => console.log('Authorization failed : ' + error.message));
+                .then(response => response.json())
+                .then(res => {
+                    this.setState({ arrayUsers: res })
+                })
+                .catch(error => console.log('Authorization failed : ' + error.message));
     }
+
+
     render() {
         return (
             <div style={{ display: 'flex', justifyContent: 'center', padding: 30 }}>
